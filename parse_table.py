@@ -7,6 +7,8 @@ file = '/home/mon/Documents/code/wrepit/new_input_csv.csv'
 #file = '/home/mon/Documents/code/wrepit/table_csv.csv'
 df = pd.read_csv(file, header=None)
 
+currencies = '(\$|USD|€|EUR|DKK|GBP|£|NOK|SEK)'
+
 # Dictionary of regex patterns and their corresponding data type.
 pattern_dict = {r'^(0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2}$': 'date',   #MM/DD/YY(YY)
                 r'^(0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19|20)?[0-9]{2}$': 'date',   #DD/MM/YY(YY)
@@ -14,8 +16,8 @@ pattern_dict = {r'^(0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?
                 r'^-?[0-9]+$': 'integer',
                 #r'^-?[0-9]*\.?[0-9]+$': 'float',
                 r'^-?([0-9]+|[0-9]{1,3}([,\ ][0-9]{3})+)((\.|,)[0-9]+)?$': 'float',
-                r'^\ *\$\ *[-+]?[0-9]*\.?[0-9]+\ *$': 'currency',
-                r'^\ *\$\ *-?([0-9]+|[0-9]{1,3}([,\ ]?[0-9]{3})+)((\.|,)[0-9]+)?\ *$': 'currency'
+                #r'^\ *\$\ *[-+]?[0-9]*\.?[0-9]+\ *$': 'currency',
+                r'^\ *'+currencies+'\ *-?([0-9]+|[0-9]{1,3}([,\ ]?[0-9]{3})+)((\.|,)[0-9]+)?\ *$': 'currency'
                 }
 
 def get_content_type(cell):
