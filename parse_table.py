@@ -3,11 +3,10 @@ import re
 
 #file = '/home/mon/Documents/code/wrepit/IC-Accounts-Payable-Ledger-Template-Updated-8552.xlsx'
 #df = pd.read_excel(file, header=None) 
-file = '/home/mon/Documents/code/wrepit/new_input_csv.csv'
+file = '/home/mon/Documents/code/cell_content_type/data/new_input_csv.csv'
 #file = '/home/mon/Documents/code/wrepit/table_csv.csv'
-df = pd.read_csv(file, header=None)
 
-currencies = '(\$|USD|€|EUR|DKK|GBP|£|NOK|SEK)'
+df = pd.read_csv(file, header=None)
 
 # Dictionary of regex patterns and their corresponding data type.
 pattern_dict = {r'^(0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2}$': 'date',   #MM/DD/YY(YY)
@@ -17,7 +16,7 @@ pattern_dict = {r'^(0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?
                 #r'^-?[0-9]*\.?[0-9]+$': 'float',
                 r'^-?([0-9]+|[0-9]{1,3}([,\ ][0-9]{3})+)((\.|,)[0-9]+)?$': 'float',
                 #r'^\ *\$\ *[-+]?[0-9]*\.?[0-9]+\ *$': 'currency',
-                r'^\ *'+currencies+'\ *-?([0-9]+|[0-9]{1,3}([,\ ]?[0-9]{3})+)((\.|,)[0-9]+)?\ *$': 'currency'
+                r'^\ *(\$|USD|€|EUR|DKK|GBP|£|NOK|SEK)\ *-?([0-9]+|[0-9]{1,3}([,\ ]?[0-9]{3})+)((\.|,)[0-9]+)?\ *$': 'currency'
                 }
 
 def get_content_type(cell):
@@ -29,7 +28,7 @@ def get_content_type(cell):
 
     for pattern, dtype in pattern_dict.items():
         if re.search(pattern, content):
-            print('typed: ',dtype)
+            #print('typed: ',dtype)
             return(dtype)
     
     return 'string'
@@ -37,4 +36,4 @@ def get_content_type(cell):
 
 type_df = df.applymap(get_content_type)
 
-type_df.to_excel('type_output_new.xlsx', header=False, index=False)
+type_df.to_excel('output/type_output.xlsx', header=False, index=False)
